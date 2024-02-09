@@ -17,5 +17,13 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+
+        findViewById(R.id.button2).setOnClickListener(view -> {
+
+        });
+
+        findViewById(R.id.button3).setOnClickListener(view -> {
+
+        });
     }
 }

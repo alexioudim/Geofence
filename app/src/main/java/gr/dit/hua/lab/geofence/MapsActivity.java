@@ -5,7 +5,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.content.ContentValues;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
@@ -25,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gr.dit.hua.lab.geofence.databinding.ActivityMapsBinding;
+import gr.dit.hua.lab.geofence.DBHelper;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -33,6 +36,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LocationManager manager;
 
     private List<Circle> circles = new ArrayList<>();
+
+    private DBHelper dbHelper = new DBHelper(getApplicationContext());
 
     private LocationListener listener;
 
@@ -120,6 +125,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         .fillColor(Color.BLUE)
                 );
 
+                double circleLatitude= circle.getCenter().latitude;
+                double circleLongitude = circle.getCenter().longitude;
+
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                ContentValues values = new ContentValues();
+                values.put(DBHelper.FIELD_1, circleLatitude);
+                values.put(DBHelper.FIELD_2, circleLongitude);
+
+
+
+                db.insert(DBHelper.SessionTable, null, values);
 
                 circles.add(circle);
             }
